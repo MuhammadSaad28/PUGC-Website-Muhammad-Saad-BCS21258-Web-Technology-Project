@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gallery</h1>
+
+        <h2>Banking & Finance Department</h2>
+        <div class="gallery">
+            <img src="images/banking1.jpg" alt="Banking Event 1">
+            <img src="images/banking2.jpg" alt="Banking Event 2">
+            <img src="images/banking3.jpg" alt="Banking Event 3">
+        </div>
+
+        <h2>Commerce Department</h2>
+        <div class="gallery">
+            <img src="images/commerce1.jpg" alt="Commerce Event 1">
+            <img src="images/commerce2.jpg" alt="Commerce Event 2">
+            <img src="images/commerce3.jpg" alt="Commerce Event 3">
+        </div>
+
+        <h2>Information Technology Department</h2>
+        <div class="gallery">
+            <img src="images/it1.jpg" alt="IT Event 1">
+            <img src="images/it2.jpg" alt="IT Event 2">
+            <img src="images/it3.jpg" alt="IT Event 3">
+        </div>
+
+        <h2>Law Department</h2>
+        <div class="gallery">
+            <img src="images/law1.jpg" alt="Law Event 1">
+            <img src="images/law2.jpg" alt="Law Event 2">
+            <img src="images/law3.jpg" alt="Law Event 3">
+        </div>
+
+        <h2>English Language & Literature Department</h2>
+        <div class="gallery">
+            <img src="images/english1.jpg" alt="English Event 1">
+            <img src="images/english2.jpg" alt="English Event 2">
+            <img src="images/english3.jpg" alt="English Event 3">
+        </div>
+    </div>
+</body>
+</html>
