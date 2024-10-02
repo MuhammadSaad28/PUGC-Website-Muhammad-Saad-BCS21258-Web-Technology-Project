@@ -1,39 +1,78 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+// Database configuration
+$servername = "localhost";
+$username = "root"; // Default username for XAMPP
+$password = "";     // Default password for XAMPP (empty by default)
+$dbname = "Project Web Technology";
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['email'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject ="New Subscription: " . $_POST['email'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $conn->real_escape_string($_POST['email']);
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
-
-  $contact->add_message( $_POST['email'], 'Email');
-
-  echo $contact->send();
+    $sql = "INSERT INTO newsletter (email) VALUES ('$email')";
+    if ($conn->query($sql) === TRUE) {
+        // If submission is successful, show a success message with a countdown
+        echo "<!DOCTYPE html>
+        <html lang='en'>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Form Submission Success</title>
+            <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'>
+            <style>
+                body {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    background-color: #f8f9fa;
+                }
+                .success-message {
+                    background-color: #d4edda;
+                    color: #155724;
+                    border: 1px solid #c3e6cb;
+                    padding: 20px;
+                    border-radius: 5px;
+                    text-align: center;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+                .countdown {
+                    font-weight: bold;
+                }
+            </style>
+        </head>
+        <body>
+            <div class='success-message'>
+                <h3>Success!</h3>
+                <p>You have been subscribed. Thank you!</p>
+                <p>You will be redirected in <span id='countdown' class='countdown'>3</span> seconds.</p>
+            </div>
+            <script>
+                let seconds = 3;
+                const countdownElement = document.getElementById('countdown');
+                const interval = setInterval(() => {
+                    seconds--;
+                    countdownElement.textContent = seconds;
+                    if (seconds <= 0) {
+                        clearInterval(interval);
+                        window.location.href = 'http://127.0.0.1:5501/index.html#contact';
+                    }
+                }, 1000);
+            </script>
+        </body>
+        </html>";
+    } else {
+        echo "Error: " . $conn->error;
+    }
+} else {
+    echo "Form not submitted via POST.";
+}
+$conn->close();
 ?>
